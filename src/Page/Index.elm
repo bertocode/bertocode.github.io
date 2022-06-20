@@ -76,8 +76,9 @@ view maybeUrl sharedModel static =
             , div []
                 [ a [] [ text "Theme" ]
                 , a [] [ text "Home" ]
-                , a [] [ text "About" ]
-                , a [] [ text "Contact" ]
+
+                --, a [] [ text "About" ]
+                --, a [] [ text "Contact" ]
                 ]
             ]
         ]
