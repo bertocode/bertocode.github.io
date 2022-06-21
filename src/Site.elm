@@ -34,7 +34,7 @@ head static =
 manifest : Data -> Manifest.Config
 manifest static =
     Manifest.init
-        { name = "Site Name"
+        { name = "Bertocode Website - Thoughts, resources and experiences of Berto as an engineer"
         , description = "Description"
         , startUrl = Route.Index |> Route.toPath
         , icons = []

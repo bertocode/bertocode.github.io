@@ -1,7 +1,5 @@
 module Page.Index exposing (Data, Model, Msg, page)
 
-import Accessibility as Html exposing (a, div, nav, text)
-import Accessibility.Landmark as Landmark
 import DataSource exposing (DataSource)
 import Head
 import Head.Seo as Seo
@@ -71,15 +69,5 @@ view :
 view maybeUrl sharedModel static =
     { title = "Welcome to Bertocode's elm-pages"
     , body =
-        [ nav [ class "main-navbar" ]
-            [ div [] [ text "Berto" ]
-            , div []
-                [ a [] [ text "Theme" ]
-                , a [] [ text "Home" ]
-
-                --, a [] [ text "About" ]
-                --, a [] [ text "Contact" ]
-                ]
-            ]
-        ]
+        []
     }
