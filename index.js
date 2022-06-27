@@ -1,39 +1,42 @@
 /** @typedef {{load: (Promise<unknown>); flags: (unknown)}} ElmPagesInit */
 
-/** @type ElmPagesInit */
-export default {
-  load: async function (elmLoaded) {
-    applyDarkModeClass();
-    const app = await elmLoaded;
-    app.ports.toggleDarkMode.subscribe(toggleDarkMode);
-  },
-  flags: function () {
-    return "You can decode this in Shared.elm using Json.Decode.string!";
-  },
-};
-
-function isDarkMode() {
+const isLightMode = () => {
   return (
-    localStorage.theme === "dark" ||
+    localStorage.theme === "light" ||
     (!("theme" in localStorage) &&
-      window.matchMedia("(prefers-color-scheme: dark)").matches)
+      window.matchMedia("(prefers-color-scheme: light)").matches)
   );
 }
 
-function toggleDarkMode() {
-  if (isDarkMode()) {
-    localStorage.setItem("theme", "light");
-  } else {
+const toggleTheme = () => {
+  if (isLightMode()) {
     localStorage.setItem("theme", "dark");
-  }
-  applyDarkModeClass();
-}
-function applyDarkModeClass() {
-  if (isDarkMode()) {
-    document.documentElement.classList.add("dark");
-    document.documentElement.classList.remove("light");
   } else {
-    document.documentElement.classList.add("light");
-    document.documentElement.classList.remove("dark");
+    localStorage.setItem("theme", "light");
+  }
+  applyLightModeClass()
+}
+
+const applyLightModeClass = () => {
+  if (isLightMode()) {
+    document.documentElement.classList.add("light")
+    document.documentElement.classList.remove("dark")
+  } else {
+    document.documentElement.classList.remove("light")
+    document.documentElement.classList.add("dark")
   }
 }
+
+/** @type ElmPagesInit */
+export default {
+  load: async function (elmLoaded) {
+    applyLightModeClass();
+    const app = await elmLoaded;
+    app.ports.toggleTheme.subscribe(() => toggleTheme());
+  },
+  flags: function () {
+    return {
+      theme: isLightMode(),
+    };
+  },
+};
