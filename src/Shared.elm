@@ -1,16 +1,20 @@
-module Shared exposing (Data, Model, Msg(..), SharedMsg(..), template)
+port module Shared exposing (Data, Model, Msg(..), SharedMsg(..), template)
 
 import Browser.Navigation
 import DataSource
 import Html exposing (Html, a, div, nav, span, text)
 import Html.Attributes exposing (class, classList, href, style, tabindex)
 import Html.Events exposing (onClick)
-import Pages.Flags
+import Json.Decode as D
+import Pages.Flags exposing (Flags(..))
 import Pages.PageUrl exposing (PageUrl)
 import Path exposing (Path)
 import Route exposing (Route)
 import SharedTemplate exposing (SharedTemplate)
 import View exposing (View)
+
+
+port toggleTheme : () -> Cmd msg
 
 
 template : SharedTemplate Msg Model Data msg
@@ -31,7 +35,7 @@ type Msg
         , fragment : Maybe String
         }
     | SharedMsg SharedMsg
-    | ToggleDarkMode
+    | ToggleTheme
 
 
 type alias Data =
@@ -44,7 +48,7 @@ type SharedMsg
 
 type alias Model =
     { showMobileMenu : Bool
-    , darkTheme : Bool
+    , lightTheme : Bool
     }
 
 
@@ -64,10 +68,25 @@ init :
     -> ( Model, Cmd Msg )
 init navigationKey flags maybePagePath =
     ( { showMobileMenu = False
-      , darkTheme = True
+      , lightTheme = flagsDecoderAttribute flags "theme" D.bool False
       }
     , Cmd.none
     )
+
+
+flagsDecoderAttribute : Flags -> String -> D.Decoder a -> a -> a
+flagsDecoderAttribute flags attribute decoder defaultValue =
+    case flags of
+        PreRenderFlags ->
+            defaultValue
+
+        BrowserFlags bFlags ->
+            case D.decodeValue (D.field attribute decoder) bFlags of
+                Ok decodedValue ->
+                    decodedValue
+
+                Err _ ->
+                    defaultValue
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -79,8 +98,8 @@ update msg model =
         SharedMsg globalMsg ->
             ( model, Cmd.none )
 
-        ToggleDarkMode ->
-            ( { model | darkTheme = not model.darkTheme }, Cmd.none )
+        ToggleTheme ->
+            ( { model | lightTheme = not model.lightTheme }, toggleTheme () )
 
 
 subscriptions : Path -> Model -> Sub Msg
@@ -106,19 +125,18 @@ view :
 view sharedData page model toMsg pageView =
     { body =
         Html.div
-            [ classList [ ( "dark-theme", model.darkTheme ), ( "light-theme", not model.darkTheme ) ]
-            ]
+            []
         <|
             nav [ class "main-navbar" ]
                 [ div [ style "font-size" "2.5rem" ] [ text "bertocode" ]
                 , div [ class "main-navbar-right" ]
-                    [ a [ onClick <| toMsg ToggleDarkMode, href "#", tabindex 0 ]
+                    [ a [ onClick <| toMsg ToggleTheme, href "#", tabindex 0 ]
                         [ span [ class "material-symbols-rounded" ] <|
-                            if model.darkTheme then
-                                [ text "light_mode" ]
+                            if model.lightTheme then
+                                [ text "dark_mode" ]
 
                             else
-                                [ text "dark_mode" ]
+                                [ text "light_mode" ]
                         ]
                     , a [] [ text "Home" ]
                     ]
