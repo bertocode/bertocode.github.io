@@ -1,14 +1,19 @@
-module Page.Index exposing (Data, Model, Msg, page)
+module Page.Blog exposing (Data, Model, Msg, page)
 
 import DataSource exposing (DataSource)
 import Head
 import Head.Seo as Seo
-import Html.Attributes exposing (class)
+import Html exposing (div, text)
 import Page exposing (Page, StaticPayload)
+import Page.Index exposing (Data, Msg)
 import Pages.PageUrl exposing (PageUrl)
 import Pages.Url
 import Shared
 import View exposing (View)
+
+
+type alias RouteParams =
+    {}
 
 
 type alias Model =
@@ -19,8 +24,9 @@ type alias Msg =
     Never
 
 
-type alias RouteParams =
-    {}
+data : DataSource Data
+data =
+    DataSource.succeed ()
 
 
 page : Page RouteParams Data
@@ -30,11 +36,6 @@ page =
         , data = data
         }
         |> Page.buildNoState { view = view }
-
-
-data : DataSource Data
-data =
-    DataSource.succeed ()
 
 
 head :
@@ -52,7 +53,7 @@ head static =
             }
         , description = "Bertocode Website - Thoughts, resources and experiences from Berto"
         , locale = Nothing
-        , title = "Bertocode Website" -- metadata.title -- TODO
+        , title = "Bertocode Website"
         }
         |> Seo.website
 
@@ -67,7 +68,7 @@ view :
     -> StaticPayload Data RouteParams
     -> View Msg
 view maybeUrl sharedModel static =
-    { title = "Welcome to Berto personal page"
+    { title = "Berto Website"
     , body =
-        []
+        [ div [] [ text "blog" ] ]
     }

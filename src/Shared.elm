@@ -138,7 +138,8 @@ view sharedData page model toMsg pageView =
                             else
                                 [ text "light_mode" ]
                         ]
-                    , a [] [ text "Home" ]
+                    , a [ href "/" ] [ text "Home" ]
+                    , a [ href "/blog" ] [ text "Blog" ]
                     ]
                 ]
                 :: pageView.body
