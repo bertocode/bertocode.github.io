@@ -55,5 +55,20 @@ body {
 
 .main-navbar>.main-navbar-right>a>span {
     font-size: 1.5rem;
-    vertical-align: bottom;
+    vertical-align: top;
+}
+
+main {
+    margin: 15px 20%;
+}
+
+main>h1 {
+    display: flex;
+    justify-content: center;
+}
+
+main>h2 {
+    display: flex;
+    justify-content: center;
+    opacity: 0.8;
 }
