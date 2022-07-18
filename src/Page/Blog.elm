@@ -3,7 +3,7 @@ module Page.Blog exposing (Data, Model, Msg, page)
 import DataSource exposing (DataSource)
 import Head
 import Head.Seo as Seo
-import Html exposing (div, text)
+import Html exposing (div, main_, text)
 import Page exposing (Page, StaticPayload)
 import Page.Index exposing (Data, Msg)
 import Pages.PageUrl exposing (PageUrl)
@@ -70,5 +70,5 @@ view :
 view maybeUrl sharedModel static =
     { title = "Berto Website"
     , body =
-        [ div [] [ text "blog" ] ]
+        [ main_ [] [] ]
     }
