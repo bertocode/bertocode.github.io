@@ -128,7 +128,7 @@ view sharedData page model toMsg pageView =
             []
         <|
             nav [ class "main-navbar" ]
-                [ div [ style "font-size" "2.5rem" ] [ text "bertocode" ]
+                [ a [ style "font-size" "2.5rem", href "/" ] [ text "bertocode" ]
                 , div [ class "main-navbar-right" ]
                     [ a [ onClick <| toMsg ToggleTheme, href "#", tabindex 0 ]
                         [ span [ class "material-symbols-rounded" ] <|
