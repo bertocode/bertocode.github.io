@@ -1,9 +1,13 @@
 module Page.Blog exposing (Data, Model, Msg, page)
 
 import DataSource exposing (DataSource)
+import DataSource.File as File
+import DataSource.Glob as Glob
 import Head
 import Head.Seo as Seo
-import Html exposing (div, main_, text)
+import Html exposing (a, div, main_, text, li, ul)
+import Html.Attributes exposing (href)
+import OptimizedDecoder as Decode exposing (Decoder)
 import Page exposing (Page, StaticPayload)
 import Page.Index exposing (Data, Msg)
 import Pages.PageUrl exposing (PageUrl)
@@ -26,7 +30,7 @@ type alias Msg =
 
 data : DataSource Data
 data =
-    DataSource.succeed ()
+    allMetadata
 
 
 page : Page RouteParams Data
@@ -59,7 +63,7 @@ head static =
 
 
 type alias Data =
-    ()
+    List BlogPostMetadata
 
 
 view :
@@ -70,5 +74,54 @@ view :
 view maybeUrl sharedModel static =
     { title = "Berto Website"
     , body =
-        [ main_ [] [] ]
+        [ main_ [] [
+            li [] <|
+            List.map
+                (\bPost ->
+                    
+                    ul [] [a [ href bPost.path ] 
+                    [ text (bPost.title) ]]
+                )
+                static.data
+                ]
+        ]
     }
+
+
+type alias BlogPostMetadata =
+    { title : String
+    , tags : List String
+    , date : String
+    , path : String
+    }
+
+
+blogPostDecoder : String -> Decoder BlogPostMetadata
+blogPostDecoder dataTitle =
+    Decode.map4 BlogPostMetadata
+        (Decode.field "title" Decode.string)
+        (Decode.field "tags" (Decode.list Decode.string))
+        (Decode.field "date" Decode.string)
+        (Decode.succeed dataTitle |> Decode.andThen (\fileUrl -> String.replace ".md" "" fileUrl |> Decode.succeed))
+
+
+blogPostFiles : DataSource (List String)
+blogPostFiles =
+    Glob.succeed identity
+        |> Glob.captureFilePath
+        |> Glob.match (Glob.literal "blog/")
+        |> Glob.match Glob.wildcard
+        |> Glob.match (Glob.literal ".md")
+        |> Glob.toDataSource
+
+
+allMetadata : DataSource (List BlogPostMetadata)
+allMetadata =
+    blogPostFiles
+        |> DataSource.map
+            (List.map
+                (\element -> File.onlyFrontmatter
+                    (blogPostDecoder element) element
+                )
+            )
+        |> DataSource.resolve
