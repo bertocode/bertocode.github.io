@@ -43,8 +43,20 @@ body {
     justify-content: space-between;
 }
 
+a {
+    text-decoration: none;
+    color: var(--font-color);
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+
+
 .main-navbar>.main-navbar-right {
     align-items: center;
+    display: flex;
 }
 
 .main-navbar>.main-navbar-right>a {
