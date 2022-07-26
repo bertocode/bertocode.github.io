@@ -5,7 +5,7 @@ import DataSource.File as File
 import DataSource.Glob as Glob
 import Head
 import Head.Seo as Seo
-import Html exposing (a, div, main_, text, li, ul)
+import Html exposing (a, div, li, main_, text, ul)
 import Html.Attributes exposing (href)
 import OptimizedDecoder as Decode exposing (Decoder)
 import Page exposing (Page, StaticPayload)
@@ -57,7 +57,7 @@ head static =
             }
         , description = "Bertocode Website - Thoughts, resources and experiences from Berto"
         , locale = Nothing
-        , title = "Bertocode Website"
+        , title = "Bertocode"
         }
         |> Seo.website
 
@@ -72,18 +72,19 @@ view :
     -> StaticPayload Data RouteParams
     -> View Msg
 view maybeUrl sharedModel static =
-    { title = "Berto Website"
+    { title = "Bertocode - blogposts"
     , body =
-        [ main_ [] [
-            li [] <|
-            List.map
-                (\bPost ->
-                    
-                    ul [] [a [ href bPost.path ] 
-                    [ text (bPost.title) ]]
-                )
-                static.data
-                ]
+        [ main_ []
+            [ ul [] <|
+                List.map
+                    (\bPost ->
+                        li []
+                            [ a [ href bPost.path ]
+                                [ text bPost.title ]
+                            ]
+                    )
+                    static.data
+            ]
         ]
     }
 
@@ -120,8 +121,10 @@ allMetadata =
     blogPostFiles
         |> DataSource.map
             (List.map
-                (\element -> File.onlyFrontmatter
-                    (blogPostDecoder element) element
+                (\element ->
+                    File.onlyFrontmatter
+                        (blogPostDecoder element)
+                        element
                 )
             )
         |> DataSource.resolve

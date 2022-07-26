@@ -70,7 +70,8 @@ document.querySelector('button').addEventListener('click',
 ```
 [Example to toggle theme with default for light theme](https://codi.link/PCFET0NUWVBFIGh0bWw+DQo8aHRtbCBsYW5nPSJlbiI+DQo8aGVhZD4NCiAgPG1ldGEgY2hhcnNldD0iVVRGLTgiPg0KICA8bWV0YSBodHRwLWVxdWl2PSJYLVVBLUNvbXBhdGlibGUiIGNvbnRlbnQ9IklFPWVkZ2UiPg0KICA8bWV0YSBuYW1lPSJ2aWV3cG9ydCIgY29udGVudD0id2lkdGg9ZGV2aWNlLXdpZHRoLCBpbml0aWFsLXNjYWxlPTEuMCI+DQogIDx0aXRsZT5Eb2N1bWVudDwvdGl0bGU+DQo8L2hlYWQ+DQo8Ym9keT4NCiAgPGgxPlRoaXMgaXMgYSBkYXJrLWxpZ2h0IGV4YW1wbGU8L2gxPg0KICA8YnV0dG9uPkNoYW5nZSB0aGVtZTwvYnV0dG9uPg0KPC9ib2R5Pg0KPC9odG1sPg==|OnJvb3QsDQo6cm9vdC5kYXJrIHsNCiAgLS1iZy1jb2xvcjogIzI4MDAzYTsNCiAgLS1mb250LWNvbG9yOiAjZmZmOw0KfQ0KDQo6cm9vdC5saWdodCB7DQogIC0tYmctY29sb3I6ICNkZWJhZmY7DQogIC0tZm9udC1jb2xvcjogIzAwMDsNCn0NCg0KQG1lZGlhIChwcmVmZXJzLWNvbG9yLXNjaGVtZTpsaWdodCl7DQogIDpyb290IHsNCiAgICAtLWJnLWNvbG9yOiAjZGViYWZmOw0KICAgIC0tZm9udC1jb2xvcjogIzAwMDsNCiAgfQ0KfQ0KDQpib2R5IHsNCiAgYmFja2dyb3VuZC1jb2xvcjogdmFyKC0tYmctY29sb3IpOw0KICBjb2xvciA6IHZhcigtLWZvbnQtY29sb3IpOw0KfQ==|ZG9jdW1lbnQucXVlcnlTZWxlY3RvcignYnV0dG9uJykuYWRkRXZlbnRMaXN0ZW5lcignY2xpY2snLA0KICAoKSA9PiBkb2N1bWVudC5kb2N1bWVudEVsZW1lbnQuY2xhc3NMaXN0LnRvZ2dsZSgnbGlnaHQnKQ0KKTs=)
 
-- We can expand this decision by saving the user decision, once they have made the choice. We can use the LocalStorage API to achieve this. The css remains the same and now
+- We can expand this decision by saving the user decision, once they have made the choice. We can use the LocalStorage API to achieve this. The css remains the same and now.
+
 ```js
 const isLightMode = () => {
   return (
