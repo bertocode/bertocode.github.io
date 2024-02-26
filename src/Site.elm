@@ -14,7 +14,7 @@ type alias Data =
 config : SiteConfig Data
 config =
     { data = data
-    , canonicalUrl = "https://elm-pages.com"
+    , canonicalUrl = "https://bertocode.github.io"
     , manifest = manifest
     , head = head
     }
